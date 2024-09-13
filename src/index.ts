@@ -1,14 +1,51 @@
-import { map, range, tap } from "rxjs";
+import { filter, from, of, range, tap } from "rxjs";
 
-const $range = range(1, 5);
+/* range(1, 10).pipe(
+    filter(value => value % 2 === 1)
+).subscribe(response => {
+    console.log("FinalData: ", response);
+}) */
 
-$range.pipe(
-    map<number, string>(value => {
-        return (value * 10).toString();
-    }),
-    tap(console.log)
-).subscribe(
-    response => {
-        console.log("Ya con filtro Final: ", response)
+    
+/* range(20, 30).pipe(
+    filter((value, i) => {
+        console.log("index: ", i);
+        return value % 2 === 1;
+    })
+).subscribe(response => {
+    console.log("FinalData: ", response);
+}) */
+
+
+interface Personaje {
+    tipo: string,
+    nombre: string
+}
+
+const personajes: Personaje[] = [
+    {
+        tipo: "heroe",
+        nombre: "Batman"
+    },
+    {
+        tipo: "heroe",
+        nombre: "Robin"
+    },
+    {
+        tipo: "villano",
+        nombre: "Joker"
+    },
+    {
+        tipo: "villano",
+        nombre: "Thanos"
     }
+]
+
+const personajes$ = from(personajes);
+
+personajes$.pipe(
+    filter(value => value.tipo === "heroe"),    
 )
+.subscribe(response => {
+    console.log(response);
+})
